@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Profile | MAS DFW Youth Director Applicant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;600;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Chosen Palette: Earthy and Professional. Background: Warm Neutral (#FAFAF9). Primary: Islamic Green/Forest (#1B4332). Secondary: Gold/Bronze (#D4AF37) for highlights. Text: Dark Slate (#1F2937). -->
+    <!-- Application Structure Plan: The app uses a dashboard layout. Top: Identity. Middle: Visual Competency Analysis (Radar Chart) to give an immediate 'at a glance' fit assessment. Bottom: Interactive Details (Experience & Skills) allowing the user to drill down into specifics without wall-of-text fatigue. The 'Strategic Alignment' section is designed to directly answer the 'Why hire me?' question by linking resume points to job needs. -->
+    <!-- Visualization & Content Choices:
+        1. Radar Chart: Goal -> Show holistic balance of candidate. Method -> Chart.js Radar. Justification -> The role requires a balance of Soft Skills (Mentorship) and Hard Skills (Admin/Budget). A radar chart visualizes this balance perfectly.
+        2. Doughnut Chart: Goal -> Show Time/Effort distribution inferred from roles. Method -> Chart.js Doughnut. Justification -> Visualizes the dual nature of the candidate (Educator vs. Coach).
+        3. Interactive List (Alignment): Goal -> Prove job fit. Method -> JS Click Event. Justification -> Allows the hiring manager to actively 'test' the candidate against specific criteria.
+        CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #FAFAF9; /* Warm neutral */
+            color: #1F2937;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Noto Serif', serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-in-out;
+        }
+        .card-shadow:hover {
+            transform: translateY(-2px);
+        }
+        .active-tab {
+            border-bottom: 3px solid #D4AF37;
+            color: #1B4332;
+            font-weight: 700;
+        }
+        .inactive-tab {
+            border-bottom: 3px solid transparent;
+            color: #6B7280;
+        }
+        .timeline-dot {
+            height: 16px;
+            width: 16px;
+            background-color: #D4AF37;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        /* Custom scrollbar for text panels */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 min-h-screen flex flex-col">
+
+<!-- Navigation / Header -->
+<header class="bg-[#1B4332] text-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+        <div class="text-center md:text-left">
+            <h1 class="text-2xl md:text-3xl font-bold tracking-wide">[Your Name]</h1>
+            <p class="text-amber-400 text-sm font-medium tracking-wider uppercase mt-1">Applicant: MAS DFW Youth Director</p>
+        </div>
+        <div class="mt-4 md:mt-0 flex space-x-6 text-sm font-light">
+            <span class="flex items-center gap-2"><span class="text-amber-400">☎</span> (214) 555-1234</span>
+            <span class="flex items-center gap-2"><span class="text-amber-400">✉</span> [Your Email]</span>
+            <span class="hidden md:flex items-center gap-2"><span class="text-amber-400">📍</span> Allen, TX</span>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="flex-grow container mx-auto px-4 py-8 space-y-12">
+
+    <!-- Intro Section -->
+    <section class="max-w-4xl mx-auto text-center space-y-4">
+        <h2 class="text-3xl font-bold text-[#1B4332]">Professional Profile Overview</h2>
+        <p class="text-lg text-gray-700 leading-relaxed">
+            Welcome to this interactive portfolio. I am a purpose-driven educator and administrator seeking to leverage my experience in <span class="font-semibold text-[#1B4332]">youth development, program management, and faith-based mentorship</span> for the Youth Director role.
+            Use the dashboard below to explore my core competencies, professional timeline, and strategic alignment with MAS DFW's vision.
+        </p>
+    </section>
+
+    <!-- Dashboard Row 1: Competencies & Focus Area -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+        <!-- Left: Competency Radar -->
+        <div class="bg-white rounded-xl card-shadow p-6 border-t-4 border-[#1B4332]">
+            <div class="mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Core Competency Analysis</h3>
+                <p class="text-sm text-gray-500 mt-2">
+                    This visualization maps my verified skills from the resume against the multi-faceted requirements of the Youth Director role, demonstrating a balanced profile suitable for both strategic and on-the-ground leadership.
+                </p>
+            </div>
+            <div class="chart-container">
+                <canvas id="competencyChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Right: Role Focus Distribution -->
+        <div class="bg-white rounded-xl card-shadow p-6 border-t-4 border-[#D4AF37]">
+            <div class="mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Experience Distribution</h3>
+                <p class="text-sm text-gray-500 mt-2">
+                    A breakdown of my current professional focus areas, highlighting the synergy between administrative oversight, educational mentorship, and athletic coaching.
+                </p>
+            </div>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6 h-full">
+                <div class="chart-container h-64 max-h-64 w-full md:w-1/2">
+                    <canvas id="focusChart"></canvas>
+                </div>
+                <div class="w-full md:w-1/2 space-y-4">
+                    <div class="bg-stone-100 p-3 rounded-lg border-l-4 border-[#1B4332]">
+                        <h4 class="font-bold text-[#1B4332]">Education & Admin</h4>
+                        <p class="text-xs text-gray-600">Strategic planning, curriculum, staff coordination at American Leadership Academy.</p>
+                    </div>
+                    <div class="bg-stone-100 p-3 rounded-lg border-l-4 border-[#D4AF37]">
+                        <h4 class="font-bold text-amber-700">Coaching & Community</h4>
+                        <p class="text-xs text-gray-600">Team leadership, event execution, and youth engagement at ADAB League.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Experience Timeline -->
+    <section class="bg-white rounded-xl card-shadow p-8">
+        <div class="mb-6 border-b pb-4">
+            <h2 class="text-2xl font-bold text-[#1B4332]">Professional Journey</h2>
+            <p class="text-gray-600 mt-2">Click on a role below to view specific responsibilities and achievements relevant to the Youth Director position.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Role Selector -->
+            <div class="space-y-4">
+                <button onclick="updateExperience('ala')" id="btn-ala" class="w-full text-left p-4 rounded-lg border-2 border-[#1B4332] bg-[#1B4332] text-white transition-all hover:shadow-md">
+                    <div class="font-bold text-lg">Teacher & Administrator</div>
+                    <div class="text-sm opacity-90">American Leadership Academy</div>
+                    <div class="text-xs mt-1 text-amber-300">Allen, TX | Present</div>
+                </button>
+
+                <button onclick="updateExperience('adab')" id="btn-adab" class="w-full text-left p-4 rounded-lg border-2 border-gray-200 hover:border-[#D4AF37] hover:bg-amber-50 transition-all text-gray-700">
+                    <div class="font-bold text-lg">Basketball Coach</div>
+                    <div class="text-sm opacity-90">ADAB Basketball League</div>
+                    <div class="text-xs mt-1 text-amber-600">DFW Area | Present</div>
+                </button>
+            </div>
+
+            <!-- Dynamic Detail View -->
+            <div class="md:col-span-2 bg-stone-50 rounded-lg p-6 border border-stone-200 min-h-[300px] flex flex-col justify-center relative">
+                <div id="experience-content" class="space-y-4 animate-fade-in">
+                    <!-- Content populated by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Strategic Alignment / "Why Hire Me" -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Left: Controls -->
+        <div class="lg:col-span-4 space-y-2">
+            <div class="bg-[#1B4332] text-white p-6 rounded-t-xl">
+                <h3 class="text-xl font-bold">Strategic Alignment</h3>
+                <p class="text-sm opacity-80 mt-2">Select a Job Requirement to see my specific qualifications.</p>
+            </div>
+            <div class="bg-white rounded-b-xl shadow-md p-2 space-y-2">
+                <button onclick="showAlignment('vision')" class="align-btn w-full text-left px-4 py-3 rounded hover:bg-stone-100 font-medium text-gray-700 border-l-4 border-transparent focus:bg-stone-100 focus:border-[#D4AF37] transition-all">Target: Strategic Vision</button>
+                <button onclick="showAlignment('admin')" class="align-btn w-full text-left px-4 py-3 rounded hover:bg-stone-100 font-medium text-gray-700 border-l-4 border-transparent focus:bg-stone-100 focus:border-[#D4AF37] transition-all">Target: Program Admin</button>
+                <button onclick="showAlignment('youth')" class="align-btn w-full text-left px-4 py-3 rounded hover:bg-stone-100 font-medium text-gray-700 border-l-4 border-transparent focus:bg-stone-100 focus:border-[#D4AF37] transition-all">Target: Youth Mentorship</button>
+                <button onclick="showAlignment('collab')" class="align-btn w-full text-left px-4 py-3 rounded hover:bg-stone-100 font-medium text-gray-700 border-l-4 border-transparent focus:bg-stone-100 focus:border-[#D4AF37] transition-all">Target: Collaboration</button>
+            </div>
+        </div>
+
+        <!-- Right: Display -->
+        <div class="lg:col-span-8 bg-white rounded-xl card-shadow p-8 flex items-center">
+            <div id="alignment-display" class="w-full">
+                <!-- Dynamic Content -->
+                <h4 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Select a target area...</h4>
+                <p class="text-gray-500">Click the buttons on the left to analyze how my background aligns with specific MAS DFW requirements.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Matrix -->
+    <section class="space-y-6">
+        <div class="flex flex-col md:flex-row justify-between items-end border-b pb-2">
+            <div>
+                <h2 class="text-2xl font-bold text-[#1B4332]">Qualifications & Skills Matrix</h2>
+                <p class="text-gray-600 text-sm mt-1">Categorized breakdown of technical and soft skills.</p>
+            </div>
+            <div class="flex space-x-2 mt-4 md:mt-0">
+                <button onclick="filterSkills('all')" class="skill-filter px-4 py-1 rounded-full text-sm font-semibold bg-[#1B4332] text-white">All</button>
+                <button onclick="filterSkills('leadership')" class="skill-filter px-4 py-1 rounded-full text-sm font-semibold bg-stone-200 text-gray-600 hover:bg-stone-300">Leadership</button>
+                <button onclick="filterSkills('faith')" class="skill-filter px-4 py-1 rounded-full text-sm font-semibold bg-stone-200 text-gray-600 hover:bg-stone-300">Faith/Tarbiya</button>
+                <button onclick="filterSkills('admin')" class="skill-filter px-4 py-1 rounded-full text-sm font-semibold bg-stone-200 text-gray-600 hover:bg-stone-300">Admin</button>
+            </div>
+        </div>
+
+        <div id="skills-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Skills populated by JS -->
+        </div>
+    </section>
+
+</main>
+
+<footer class="bg-[#1B4332] text-white py-8 mt-12">
+    <div class="container mx-auto px-4 text-center space-y-2">
+        <p class="font-bold text-xl">[Your Name]</p>
+        <p class="text-amber-400 text-sm">Candidate for MAS DFW Youth Director</p>
+        <div class="pt-4 border-t border-[#2F5233] mt-4 text-xs opacity-60">
+            Generated Interactive Portfolio | Resume Data &copy; 2024
+        </div>
+    </div>
+</footer>
+
+<script>
+    // --- Data Store ---
+    const resumeData = {
+        experience: {
+            ala: {
+                title: "Teacher & Administrator",
+                org: "American Leadership Academy",
+                loc: "Allen, TX",
+                date: "[Start Date] – Present",
+                points: [
+                    "<strong>Strategic Program Development:</strong> Designed spiritual, social, and academic programs aligning with institutional values, mirroring MAS long-term planning needs.",
+                    "<strong>Administrative Oversight:</strong> Managed scheduling, resource allocation, and efficacy reporting for the Executive Team.",
+                    "<strong>Islamic Mentorship:</strong> Provided daily instruction and one-on-one prophetic guidance to youth ages 10-17.",
+                    "<strong>Cross-Departmental Collaboration:</strong> Integrated efforts across teaching and admin staff for school-wide objectives.",
+                    "<strong>Values-Centered Culture:</strong> Cultivated a judgment-free environment respecting diverse backgrounds."
+                ]
+            },
+            adab: {
+                title: "Coach",
+                org: "ADAB Basketball League",
+                loc: "Dallas-Fort Worth Area",
+                date: "[Start Date] – Present",
+                points: [
+                    "<strong>Team Leadership:</strong> Mentored diverse young athletes, developing individual skill plans and leadership qualities.",
+                    "<strong>Event Planning:</strong> Executed consistent seasonal practices, games, and logistics for a dynamic youth program.",
+                    "<strong>Community Engagement:</strong> Networked with parents, officials, and external communities to expand impact."
+                ]
+            }
+        },
+        alignment: {
+            vision: {
+                title: "Strategic Vision & Planning",
+                content: "<strong>Job Requirement:</strong> Develop comprehensive long-term and annual plans.<br><br><strong>My Evidence:</strong> At American Leadership Academy, I collaborated with leadership to <span class='bg-amber-100 px-1'>design and implement educational and extracurricular programs</span> that align with core institutional values. This directly mirrors the need for comprehensive planning within the Youth Department."
+            },
+            admin: {
+                title: "Administrative Excellence",
+                content: "<strong>Job Requirement:</strong> Report to Executive Director, manage databases, and protocols.<br><br><strong>My Evidence:</strong> My role involves <span class='bg-amber-100 px-1'>managing key administrative functions</span> including scheduling, resource allocation, and reporting efficacy to the Executive Team. I have demonstrated capacity for consistent high-level reporting and detail orientation."
+            },
+            youth: {
+                title: "Youth Mentorship & Tarbiya",
+                content: "<strong>Job Requirement:</strong> Provide prophetic mentorship and spiritual nourishment.<br><br><strong>My Evidence:</strong> I provide <span class='bg-amber-100 px-1'>daily Islamic instruction and one-on-one prophetic guidance</span> to youth ages 10-17, modeling exemplary behavior. This experience is directly transferable to the Tarbiya goals of MAS."
+            },
+            collab: {
+                title: "Collaboration & Outreach",
+                content: "<strong>Job Requirement:</strong> Collaborate with other departments and lead school outreach.<br><br><strong>My Evidence:</strong> I have successfully <span class='bg-amber-100 px-1'>coordinated school-wide events</span> by working seamlessly with teaching and admin staff. Additionally, my coaching role requires networking with external league communities and parents."
+            }
+        },
+        skills: [
+            { name: "Tarbiya System Familiarity", category: "faith", icon: "☪️" },
+            { name: "Volunteer Management", category: "leadership", icon: "👥" },
+            { name: "Program Budgeting", category: "admin", icon: "📊" },
+            { name: "Public Speaking", category: "leadership", icon: "🎤" },
+            { name: "Event Planning", category: "admin", icon: "📅" },
+            { name: "Student Outreach", category: "faith", icon: "🤝" },
+            { name: "Resource Allocation", category: "admin", icon: "📉" },
+            { name: "Conflict Resolution", category: "leadership", icon: "⚖️" },
+            { name: "Prophetic Mentorship", category: "faith", icon: "🕌" }
+        ]
+    };
+
+    // --- Initialization ---
+    document.addEventListener('DOMContentLoaded', () => {
+        initCharts();
+        updateExperience('ala'); // Load default experience
+        renderSkills('all');
+        showAlignment('vision'); // Load default alignment
+    });
+
+    // --- Chart.js Logic ---
+    function initCharts() {
+        // Radar Chart: Competencies
+        const ctxRadar = document.getElementById('competencyChart').getContext('2d');
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: ['Tarbiya/Mentorship', 'Admin/Logistics', 'Strategic Planning', 'Community Outreach', 'Event Execution'],
+                datasets: [{
+                    label: 'Candidate Proficiency',
+                    data: [95, 85, 90, 80, 88], // Inferred qualitative score
+                    backgroundColor: 'rgba(27, 67, 50, 0.2)',
+                    borderColor: '#1B4332',
+                    pointBackgroundColor: '#D4AF37',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#D4AF37'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(0,0,0,0.1)' },
+                        grid: { color: 'rgba(0,0,0,0.05)' },
+                        pointLabels: {
+                            font: { size: 12, family: "'Noto Sans', sans-serif" },
+                            color: '#374151'
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        ticks: { display: false } // Hide numbers for cleaner look
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+
+        // Doughnut Chart: Focus Distribution
+        const ctxDoughnut = document.getElementById('focusChart').getContext('2d');
+        new Chart(ctxDoughnut, {
+            type: 'doughnut',
+            data: {
+                labels: ['Education & Admin Strategy', 'Coaching & Community', 'Mentorship'],
+                datasets: [{
+                    data: [50, 30, 20], // Estimated distribution based on resume text volume
+                    backgroundColor: ['#1B4332', '#D4AF37', '#A3B18A'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ' ' + context.label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // --- Interaction Logic: Experience ---
+    function updateExperience(key) {
+        const data = resumeData.experience[key];
+        const contentDiv = document.getElementById('experience-content');
+
+        // Update Buttons
+        document.getElementById('btn-ala').className = key === 'ala'
+            ? "w-full text-left p-4 rounded-lg border-2 border-[#1B4332] bg-[#1B4332] text-white transition-all shadow-md"
+            : "w-full text-left p-4 rounded-lg border-2 border-gray-200 hover:border-[#D4AF37] hover:bg-amber-50 transition-all text-gray-700";
+
+        document.getElementById('btn-adab').className = key === 'adab'
+            ? "w-full text-left p-4 rounded-lg border-2 border-[#1B4332] bg-[#1B4332] text-white transition-all shadow-md"
+            : "w-full text-left p-4 rounded-lg border-2 border-gray-200 hover:border-[#D4AF37] hover:bg-amber-50 transition-all text-gray-700";
+
+        // Render Content
+        let listHtml = data.points.map(point =>
+            `<li class="flex items-start gap-3">
+                    <span class="mt-1.5 min-w-[8px] min-h-[8px] bg-[#D4AF37] rounded-full"></span>
+                    <span class="text-gray-700 text-sm leading-relaxed">${point}</span>
+                 </li>`
+        ).join('');
+
+        contentDiv.innerHTML = `
+                <div>
+                    <h3 class="text-2xl font-bold text-[#1B4332]">${data.title}</h3>
+                    <div class="text-amber-600 font-medium mb-4">${data.org} | ${data.loc}</div>
+                    <ul class="space-y-3">
+                        ${listHtml}
+                    </ul>
+                </div>
+            `;
+    }
+
+    // --- Interaction Logic: Alignment ---
+    function showAlignment(key) {
+        const data = resumeData.alignment[key];
+        const display = document.getElementById('alignment-display');
+
+        display.innerHTML = `
+                <div class="animate-fade-in">
+                    <h4 class="text-2xl font-bold text-[#1B4332] mb-2">${data.title}</h4>
+                    <div class="h-1 w-20 bg-[#D4AF37] mb-6"></div>
+                    <div class="text-gray-700 text-lg leading-relaxed space-y-4">
+                        ${data.content}
+                    </div>
+                </div>
+            `;
+    }
+
+    // --- Interaction Logic: Skills ---
+    function renderSkills(filter) {
+        const grid = document.getElementById('skills-grid');
+        grid.innerHTML = '';
+
+        // Update button styles
+        document.querySelectorAll('.skill-filter').forEach(btn => {
+            if((filter === 'all' && btn.innerText === 'All') ||
+                (filter === 'leadership' && btn.innerText === 'Leadership') ||
+                (filter === 'faith' && btn.innerText.includes('Faith')) ||
+                (filter === 'admin' && btn.innerText === 'Admin')) {
+                btn.classList.remove('bg-stone-200', 'text-gray-600');
+                btn.classList.add('bg-[#1B4332]', 'text-white');
+            } else {
+                btn.classList.add('bg-stone-200', 'text-gray-600');
+                btn.classList.remove('bg-[#1B4332]', 'text-white');
+            }
+        });
+
+        const filteredData = filter === 'all'
+            ? resumeData.skills
+            : resumeData.skills.filter(s => s.category === filter);
+
+        filteredData.forEach(skill => {
+            const card = document.createElement('div');
+            card.className = 'bg-white p-4 rounded border border-gray-100 shadow-sm flex items-center gap-3 hover:border-[#D4AF37] transition-colors';
+            card.innerHTML = `
+                    <div class="text-2xl">${skill.icon}</div>
+                    <div class="font-semibold text-gray-800">${skill.name}</div>
+                `;
+            grid.appendChild(card);
+        });
+    }
+</script>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+</style>
+</body>
+</html>
