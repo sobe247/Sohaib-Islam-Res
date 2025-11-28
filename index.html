@@ -111,7 +111,7 @@
                     Software Developer
                 </button>
                 <button id="toggle-youth" onclick="setPersona('youth')" class="px-5 py-2 text-sm rounded-full transition-all">
-                    Youth Director
+                    Program Manager
                 </button>
             </div>
 
@@ -242,10 +242,10 @@
 <footer class="bg-slate-800 text-white py-12 mt-12">
     <div class="container mx-auto px-4 text-center space-y-4">
         <div class="h-1 w-20 bg-gradient-brand mx-auto rounded-full mb-6"></div>
-        <p class="font-bold text-2xl tracking-tight">[Your Name]</p>
-        <p id="footer-title" class="text-sky-300 font-medium">Candidate for MAS DFW Youth Director</p>
+        <p class="font-bold text-2xl tracking-tight">Sohaib Jamal Khan</p>
+        <p id="footer-title" class="text-sky-300 font-medium">Program Manager</p>
         <div class="pt-8 border-t border-slate-700 mt-8 text-xs text-slate-500">
-            Generated Interactive Portfolio | Resume Data &copy; 2024
+            Generated Interactive Portfolio | Resume Data &copy; 2025
         </div>
     </div>
 </footer>
@@ -376,7 +376,7 @@
             ]
         },
         dev: {
-            title: "Senior Software Developer Applicant",
+            title: "Senior Software Developer",
             intro: "I am a leader in Java development with over 10 years of experience, specializing in managing projects from initial concept to multi-million dollar completion. My focus is on <span class='font-semibold text-teal-600'>microservices architecture, DevOps optimization, and driving technical modernization</span> with a strong customer-centric business mindset.",
 
             // Charts Data
@@ -481,11 +481,11 @@
         const data = resumeData[personaKey];
 
         // 1. Update Title and Introduction Text
-        const roleName = personaKey === 'youth' ? 'MAS DFW Youth Director' : 'Senior Software Developer';
+        const roleName = personaKey === 'youth' ? 'Program Manager' : 'Senior Software Developer';
 
         document.getElementById('app-title').innerText = `Candidate Profile | ${roleName}`;
         document.getElementById('applicant-title').innerText = `Applicant: ${roleName}`;
-        document.getElementById('footer-title').innerText = `Candidate for ${roleName}`;
+        document.getElementById('footer-title').innerText = `Experienced ${roleName}`;
         document.getElementById('profile-intro').innerHTML = data.intro;
 
         // 2. Update Toggle Buttons
